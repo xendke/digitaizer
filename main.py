@@ -5,7 +5,7 @@ except ImportError:
     # Python3
     import tkinter as tk
 
-class Pencil():
+class Pen():
     def __init__(self, canvas):
         self.previous_x = 0
         self.previous_y = 0
@@ -21,8 +21,8 @@ class Pencil():
         return self
 
     def hovering(self, event):
-        self.previous_x = event.x
-        self.previous_y = event.y
+        print("hovr", event.x)
+        self.set_previous(event.x, event.y)
 
     def draw(self, event):
         """ """
@@ -32,30 +32,29 @@ class Pencil():
         # processing rounded corners mimic
         self.set_previous(event.x, event.y)
 
-
+def clear(event):
+    print("s")
+    cnv.create_rectangle(0,0,400,400, fill="white", outline="white", width=5);
 
 def save(event):
     print("saving")
-    w.postscript(file="file_name.ps", colormode="gray")
+    cnv.postscript(file="file_name.ps", colormode="gray")
 
 
 
 master = tk.Tk()
 
-w = tk.Canvas(master, width=400, height=400)
-w.pack()
+cnv = tk.Canvas(master, width=400, height=400)
+cnv.pack()
+pn = Pen(cnv)
 
-pn = Pencil(w)
-oldx = 0
-oldy = 0
+cnv.bind("<Motion>", pn.hovering)
+cnv.bind("<FocusIn>", pn.hovering)
+cnv.bind("<B1-Motion>", pn.draw)
+# cnv.bind("<Button-1>", pn.draw)
+cnv.bind("<Button-2>", save)
+cnv.bind("<Leave>", clear)
 
-# w.create_oval(0, 0, 10, 10)
-# w.create_line(0, 100, 200, 0, fill="red", dash=(4, 4))
-
-# w.create_rectangle(50, 25, 150, 75, fill="blue")
-w.bind("<Motion>", pn.hovering)
-w.bind("<B1-Motion>", pn.draw)
-w.bind("<Button-2>", save)
 
 while True:
     try:
