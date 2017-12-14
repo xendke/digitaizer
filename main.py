@@ -52,11 +52,11 @@ class Pen():
     def bind_actions(self):
         cnv = self.canvas
         cnv.bind("<Motion>", self.hovering)
-        cnv.bind("<FocusIn>", self.hovering)
         cnv.bind("<B1-Motion>", self.draw)
-        # cnv.bind("<Button-1>", pn.draw)
+        cnv.bind("<Button-1>", self.hovering)
         cnv.bind("<Button-2>", cnv.save)
         cnv.bind("<Leave>", cnv.clear)
+        cnv.bind("<FocusIn>", self.hovering)
 
 def main():
     master = tk.Tk()
