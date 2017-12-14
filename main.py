@@ -50,27 +50,31 @@ class Pen():
         self.set_previous(event.x, event.y)
 
     def bind_actions(self):
+        cnv = self.canvas
         cnv.bind("<Motion>", self.hovering)
         cnv.bind("<FocusIn>", self.hovering)
         cnv.bind("<B1-Motion>", self.draw)
         # cnv.bind("<Button-1>", pn.draw)
-        cnv.bind("<Button-2>", self.canvas.save)
-        cnv.bind("<Leave>", self.canvas.clear)
+        cnv.bind("<Button-2>", cnv.save)
+        cnv.bind("<Leave>", cnv.clear)
 
+def main():
+    master = tk.Tk()
+    cnv = Canvas(master)
+    cnv.pack()
+    pn = Pen(cnv)
 
-master = tk.Tk()
-cnv = Canvas(master)
-cnv.pack()
-pn = Pen(cnv)
+    while True:
+        try:
+            # x = master.winfo_pointerx()
+            # y = master.winfo_pointery()
+            pass
+        except tk.TclError:
+            print("done")
+            break
 
-while True:
-    try:
-        # x = master.winfo_pointerx()
-        # y = master.winfo_pointery()
-        pass
-    except tk.TclError:
-        print("done")
-        break
+        master.update_idletasks()
+        master.update()
 
-    master.update_idletasks()
-    master.update()
+if(__name__=="__main__"):
+    main()
