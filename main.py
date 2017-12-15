@@ -27,7 +27,7 @@ class Pen():
         self.previous_y = 0
         self.canvas = canvas
         self.color = "black"
-        self.width = 20
+        self.width = 50
         self.bind_actions()
 
     def set_previous(self, x, y):
@@ -37,7 +37,7 @@ class Pen():
     def getPencil(self):
         return self
 
-    def hovering(self, event):
+    def hovered(self, event):
         print("hovr", event.x)
         self.set_previous(event.x, event.y)
 
@@ -51,30 +51,30 @@ class Pen():
 
     def bind_actions(self):
         cnv = self.canvas
-        cnv.bind("<Motion>", self.hovering)
-        cnv.bind("<B1-Motion>", self.draw)
-        cnv.bind("<Button-1>", self.hovering)
-        cnv.bind("<Button-2>", cnv.save)
-        cnv.bind("<Leave>", cnv.clear)
-        cnv.bind("<FocusIn>", self.hovering)
+
+        cnv.bind("<B1-Motion>", self.draw) # Left Click Drag
+
+        cnv.bind("<Motion>", self.hovered) # Hover
+        cnv.bind("<Button-1>", self.hovered) # Left Click
+        cnv.bind("<Enter>", self.hovered) # Mouse Entered
+
+        cnv.bind("<Button-2>", cnv.save) # Right Click
+        cnv.bind("<Leave>", cnv.clear) # Mouse Left
 
 def main():
     master = tk.Tk()
+    master.title("digitaizer")
     cnv = Canvas(master)
     cnv.pack()
     pn = Pen(cnv)
 
     while True:
         try:
-            # x = master.winfo_pointerx()
-            # y = master.winfo_pointery()
-            pass
+            master.update_idletasks()
+            master.update()
         except tk.TclError:
             print("done")
             break
-
-        master.update_idletasks()
-        master.update()
 
 if(__name__=="__main__"):
     main()
