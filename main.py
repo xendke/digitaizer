@@ -1,17 +1,21 @@
 import tkinter as tk
+from tkinter import messagebox
+
 
 class Canvas(tk.Canvas):
     def __init__(self, master, w=400, h=400):
-        super().__init__(master,width=w, height=h)
+        super().__init__(master,width=w, height=h, cursor="circle", bd=5, relief="ridge")
         self.width = w
         self.height = h
         self.file_name = "canvas.ps"
+        self.pn = Pen(self)
+        # self.create_text(self.width/2, self.height/2, text="Write Here", anchor="center")
 
-    def clear(self, event):
+    def clear(self, event=None):
         print("clearing")
         self.create_rectangle(0,0,400,400, fill="white", outline="white", width=5);
 
-    def save(self, event):
+    def save(self, event=None):
         """ save screenshot of the canvas stored as postscript file """
         print("saving")
         self.postscript(file=self.file_name, colormode="gray")
@@ -49,17 +53,18 @@ class Pen():
         cnv.bind("<Button-1>", self.hovered) # Left Click
         cnv.bind("<Enter>", self.hovered) # Mouse Entered
 
-        # temporary
-        cnv.bind("<Button-2>", cnv.save) # Right Click
-        cnv.bind("<Leave>", cnv.clear) # Mouse Left
-
 def main():
     master = tk.Tk()
     master.title("digitaizer")
-    #master.iconbitmap('icon.ico')
+
     cnv = Canvas(master)
-    cnv.pack()
-    pn = Pen(cnv)
+    cnv.grid(row=0, column=0, columnspan=2)
+
+    bl = tk.Button(master, text="Clear Canvas", command=cnv.clear)
+    bl.grid(row=1, column=0)
+
+    br = tk.Button(master, text="Predict It", command=cnv.save)
+    br.grid(row=1, column=1)
 
     while True:
         try:
