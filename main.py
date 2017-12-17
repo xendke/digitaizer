@@ -15,13 +15,14 @@ def main():
     br = tk.Button(master, text="Predict It", command=cnv.save)
     br.grid(row=1, column=1)
 
-    while True:
-        try:
-            master.update_idletasks()
-            master.update()
-        except tk.TclError:
-            print("done")
-            break
+    master.mainloop()
+    # while True:
+    #     try:
+    #         master.update_idletasks()
+    #         master.update()
+    #     except tk.TclError:
+    #         print("done")
+    #         break
 
 if(__name__=="__main__"):
     main()
