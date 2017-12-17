@@ -12,7 +12,7 @@ class Canvas(tk.Canvas):
 
     def clear(self, event=None):
         print("clearing")
-        self.create_rectangle(0,0,400,400, fill="white", outline="white", width=5);
+        self.delete(tk.ALL)
 
     def save(self, event=None):
         """ save screenshot of the canvas stored as postscript file """
