@@ -7,7 +7,7 @@ class Canvas(tk.Canvas):
         self.width = w
         self.height = h
         self.file_name = "canvas.ps" # name of the screenshot file that self.save uses
-        self.pn = Pen(self) # create pen object to draw on canvas
+        self.pn = Pen(self) # used draw on canvas
         # self.create_text(self.width/2, self.height/2, text="Write Here", anchor="center")
 
     def clear(self, event=None):

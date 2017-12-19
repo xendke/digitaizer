@@ -3,13 +3,13 @@ import canvas # canvas wrapper widget
 
 def main():
     master = tk.Tk() # window application
-    master.title("digitaizer") # top bar title
+    master.title("digitaizer")
 
-    # using grid to set the widgets down on the window
+    # using grid system to set the widgets in the window
     cnv = canvas.Canvas(master)
     cnv.grid(row=0, column=0, columnspan=2)
 
-    bl = tk.Button(master, text="Clear Canvas", command=cnv.clear) # button to clear the canvas
+    bl = tk.Button(master, text="Clear Canvas", command=cnv.clear)
     bl.grid(row=1, column=0)
 
     br = tk.Button(master, text="Predict It", command=cnv.save) # button which will start the prediction process (not yet implemented)
