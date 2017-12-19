@@ -6,13 +6,13 @@ class Canvas(tk.Canvas):
         super().__init__(master,width=w, height=h, cursor="circle", bd=5, relief="ridge")
         self.width = w
         self.height = h
-        self.file_name = "canvas.ps"
-        self.pn = Pen(self)
+        self.file_name = "canvas.ps" # name of the screenshot file that self.save uses
+        self.pn = Pen(self) # create pen object to draw on canvas
         # self.create_text(self.width/2, self.height/2, text="Write Here", anchor="center")
 
     def clear(self, event=None):
         print("clearing")
-        self.delete(tk.ALL)
+        self.delete(tk.ALL) # deletes all items on the canvas
 
     def save(self, event=None):
         """ save screenshot of the canvas stored as postscript file """
@@ -45,8 +45,8 @@ class Pen():
 
     def bind_actions(self):
         cnv = self.canvas
-        cnv.bind("<B1-Motion>", self.draw) # Left Click Drag
+        cnv.bind("<B1-Motion>", self.draw) # left click drag
 
-        cnv.bind("<Motion>", self.hovered) # Hover
-        cnv.bind("<Button-1>", self.hovered) # Left Click
-        cnv.bind("<Enter>", self.hovered) # Mouse Entered
+        cnv.bind("<Motion>", self.hovered) # hover
+        cnv.bind("<Button-1>", self.hovered) # single left click, this helps reset coordinates when having left canvas
+        cnv.bind("<Enter>", self.hovered) # mouse Entered the canvas
