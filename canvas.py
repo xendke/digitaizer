@@ -3,7 +3,7 @@ import tkinter as tk
 
 class Canvas(tk.Canvas):
     def __init__(self, master, w=400, h=400):
-        super().__init__(master,width=w, height=h, cursor="circle", bd=5, relief="ridge")
+        super().__init__(master,width=w, height=h, background="white", cursor="circle", bd=5, relief="ridge")
         self.width = w
         self.height = h
         self.file_name = "canvas.ps" # name of the screenshot file that self.save uses
