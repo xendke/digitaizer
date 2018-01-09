@@ -1,3 +1,6 @@
+# MNIST
+training_data/
+
 # postscript (canvas screenshot)
 *.ps
 
