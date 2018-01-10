@@ -47,6 +47,7 @@ class Network():
 
     def fit(self, training_data):
         """ train the network - training_data is set of tuples (x, y) where x is input(pixel data) and y is true output(label)"""
+        np.array(training_data)
         size = len(training_data)
         for i in range(0, self.epochs):
             np.random.shuffle(training_data)
@@ -56,13 +57,38 @@ class Network():
                 nabla_b = [np.zeros(b.shape) for b in self.biases]
                 nabla_w = [np.zeros(w.shape) for w in self.weights]
                 for x, y in mb: # apply gradient descent using backpropagation to each mini batch
-                    dnabla_b, dnabla_w = self.backprop(x, y) # TODO
+                    dnabla_b, dnabla_w = self.backprop(x, y)
                     nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, dnabla_b)]
                     nabla_w = [nw+dnw for nw, dnw in zip(nabla_w, dnabla_w)]
                 self.weights = [w-(self.learning_rate/len(mb))*nw for w, nw in zip(self.weights, nabla_w)]
                 self.biases = [b-(self.learning_rate/len(mb))*nb for b, nb in zip(self.biases, nabla_b)]
-            print("epoch end")
-        return
+            print("epoch "+str(i)+" ended")
+
+    def backprop(self, x, y):
+        """Return a tuple ``(nabla_b, nabla_w)`` representing the gradient for the cost function C_x."""
+        nabla_b = [np.zeros(b.shape) for b in self.biases]
+        nabla_w = [np.zeros(w.shape) for w in self.weights]
+        # feedforward
+        activation = x
+        activations = [x] # list to store all the activations, layer by layer
+        zs = [] # list to store all the z vectors, layer by layer
+        for b, w in zip(self.biases, self.weights):
+            z = np.dot(w, activation)+b
+            zs.append(z)
+            activation = sigmoid(z)
+            activations.append(activation)
+        # backward pass
+        delta = (activations[-1]-y) * sigmoid_prime(zs[-1])
+        nabla_b[-1] = delta
+        nabla_w[-1] = np.dot(delta, activations[-2].transpose())
+        
+        for l in range(2, self.num_layers):
+            z = zs[-l]
+            sp = sigmoid_prime(z)
+            delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
+            nabla_b[-l] = delta
+            nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
+        return (nabla_b, nabla_w)
 
 def sigmoid(v):
     """ v is a Numpy array. the sigmoid function will be applied to each element in v. """
