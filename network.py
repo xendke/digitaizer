@@ -110,7 +110,7 @@ def sigmoid_prime(v):
 
 if __name__ == '__main__':
     net = Network([784, 30, 10])
-    mndata = MNIST('./training_data')
+    # mndata = MNIST('./mnist_data')
 
     # images, labels = mndata.load_training() # example data: image [0,156,255,..., 0], label 4
     # training_data = []
