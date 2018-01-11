@@ -4,6 +4,7 @@ Numerical Digit Recognition Demo App (Using Neural Networks and Machine Learning
 ## prerequisites
 
 * python v3
+* python-mnist [link](https://github.com/sorki/python-mnist) (needed only for re-training network)
 
 ## run
 ```
@@ -11,5 +12,5 @@ python3 main.py
 ```
 
 ## todo
-* process canvas screnshot to match MNIST data format
-* implement NN
+* process canvas screenshot to match MNIST data format
+* ~~implement NN~~
