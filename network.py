@@ -1,5 +1,6 @@
 # network based on Michael Nielsen's http://neuralnetworksanddeeplearning.com/
 import numpy as np # mathematical functions and vectors/matrices
+import pickle as pkl # saving/loading weights and biases to/from a file
 from mnist import MNIST # loading mnist data https://github.com/sorki/python-mnist/
 
 class Network():
@@ -91,6 +92,14 @@ class Network():
             nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
         return (nabla_b, nabla_w)
 
+    def save_wb(self):
+        with open('wb_save.pkl', 'wb') as f:
+            pkl.dump([self.weights, self.biases], f)
+
+    def load_wb(self):
+        with open('wb_save.pkl', 'rb') as f:  # Python 3: open(..., 'rb')
+            self.weights, self.biases = pkl.load(f)
+
 def sigmoid(v):
     """ v is a Numpy array. the sigmoid function will be applied to each element in v. """
     return 1.0/(1.0+np.exp(-v))
@@ -103,16 +112,18 @@ if __name__ == '__main__':
     net = Network([784, 30, 10])
     mndata = MNIST('./training_data')
 
-    images, labels = mndata.load_training() # example data: image [0,156,255,..., 0], label 4
-    training_data = []
-    for i, j in zip(images, labels): # ready data for network.
-        i = np.array(i, dtype='f')/255 # change pixel value range from ints {0-255} to floats {0..1}
-        im = np.array(i)[np.newaxis].T # transpose from [0, 0, 0.24, ... 0] to [[0], [0], [0.24], .. [0]]
+    # images, labels = mndata.load_training() # example data: image [0,156,255,..., 0], label 4
+    # training_data = []
+    # for i, j in zip(images, labels): # ready data for network.
+    #     i = np.array(i, dtype='f')/255 # change pixel value range from ints {0-255} to floats {0..1}
+    #     im = np.array(i)[np.newaxis].T # transpose from [0, 0, 0.24, ... 0] to [[0], [0], [0.24], .. [0]]
+    #
+    #     lb = np.zeros(10) # change structure from single int to array. example:  5 to [0,0,0,0,0,1,0,0,0]
+    #     lb[j] = 1
+    #     lb = lb[np.newaxis].T
+    #
+    #     training_data.append((im,lb))
 
-        lb = np.zeros(10) # change structure from single int to array. example:  5 to [0,0,0,0,0,1,0,0,0]
-        lb[j] = 1
-        lb = lb[np.newaxis].T
-
-        training_data.append((im,lb))
-
-    net.fit(training_data)
+    # net.fit(training_data)
+    # net.save_wb()
+    net.load_wb()
