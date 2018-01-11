@@ -1,7 +1,7 @@
 # network based on Michael Nielsen's http://neuralnetworksanddeeplearning.com/
 import numpy as np # mathematical functions and vectors/matrices
 import pickle as pkl # saving/loading weights and biases to/from a file
-from mnist import MNIST # loading mnist data https://github.com/sorki/python-mnist/
+import mnloader
 
 class Network():
     def __init__(self, layer_sizes, learning_config=[3.0, 10, 30]):
@@ -100,6 +100,19 @@ class Network():
         with open('wb_save.pkl', 'rb') as f:  # Python 3: open(..., 'rb')
             self.weights, self.biases = pkl.load(f)
 
+    def mnist_eval(self):
+        """ evaluate network with MNIST test data """
+        test_data = mnloader.get_testing()
+        totaln = len(test_data)
+        failn = 0
+        for t in test_data:
+            prediction = np.argmax(self.predict(t[0])) # highest valued prediction
+            truth = t[1]
+            # print(truth, prediction)
+            if(truth != prediction):
+                failn+=1
+        print(failn,"/",totaln, "failed")
+
 def sigmoid(v):
     """ v is a Numpy array. the sigmoid function will be applied to each element in v. """
     return 1.0/(1.0+np.exp(-v))
@@ -110,39 +123,10 @@ def sigmoid_prime(v):
 
 if __name__ == '__main__':
     net = Network([784, 30, 10])
-    mndata = MNIST('./mnist_data')
 
-    # images, labels = mndata.load_training() # example data: image [0,156,255,..., 0], label 4
-    # training_data = []
-    # for i, j in zip(images, labels): # ready data for network.
-    #     i = np.array(i, dtype='f')/255 # change pixel value range from ints {0-255} to floats {0..1}
-    #     im = np.array(i)[np.newaxis].T # transpose from [0, 0, 0.24, ... 0] to [[0], [0], [0.24], .. [0]]
-    #
-    #     lb = np.zeros(10) # change structure from single int to array. example:  5 to [0,0,0,0,0,1,0,0,0]
-    #     lb[j] = 1
-    #     lb = lb[np.newaxis].T
-    #
-    #     training_data.append((im,lb))
-
+    # training_data = mnloader.get_training()
     # net.fit(training_data)
     # net.save_wb()
     net.load_wb() # load weights and biases from wb_save.pkl
 
-    images, labels = mndata.load_testing()
-    test_data = []
-    for i, j in zip(images, labels): # ready data for network. pixels: floats {0..1}
-        i = np.array(i, dtype='f')/255
-        im = np.array(i)[np.newaxis].T # transpose from [0, 0, 0.24, ... 0] to [[0], [0], [0.24], .. [0]]
-        # since network predicting does not need labels, we keep the label as int{0-9} for use later
-        test_data.append((im,j))
-
-    # evaluate network with test data
-    totaln = len(test_data)
-    failn = 0
-    for t in test_data:
-        prediction = np.argmax(net.predict(t[0])) # highest valued prediction
-        truth = t[1]
-        # print(truth, prediction)
-        if(truth != prediction):
-            failn+=1
-    print(failn,"/",totaln, "failed")
+    net.mnist_eval()
