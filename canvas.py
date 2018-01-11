@@ -1,9 +1,11 @@
 """ Canvas Widget """
 import tkinter as tk
+from PIL import ImageGrab
 
 class Canvas(tk.Canvas):
     def __init__(self, master, w=400, h=400):
-        super().__init__(master,width=w, height=h, background="white", cursor="circle", bd=5, relief="ridge")
+        self.border_w = 5
+        super().__init__(master,width=w, height=h, background="white", cursor="circle", bd=self.border_w, relief="ridge")
         self.width = w
         self.height = h
         self.file_name = "canvas.ps" # name of the screenshot file that self.save uses
@@ -17,7 +19,10 @@ class Canvas(tk.Canvas):
     def save(self, event=None):
         """ save screenshot of the canvas stored as postscript file """
         print("saving")
-        self.postscript(file=self.file_name, colormode="gray")
+        x = self.winfo_rootx()
+        y = self.winfo_rooty()
+        offset = self.border_w*2 # needed because of the canvas' border
+        ImageGrab.grab((x+offset,y+offset,x+self.width+offset,y+self.height+offset)).save('in.png') # 10
 
 class Pen():
     def __init__(self, canvas):

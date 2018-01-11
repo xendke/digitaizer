@@ -4,6 +4,7 @@ Numerical Digit Recognition Demo App (Using Neural Networks and Machine Learning
 ## prerequisites
 
 * python v3
+* Pillow [link](https://github.com/python-pillow/Pillow)
 * python-mnist [link](https://github.com/sorki/python-mnist) (needed only for re-training network)
 
 ## run
