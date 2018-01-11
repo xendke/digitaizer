@@ -110,7 +110,7 @@ def sigmoid_prime(v):
 
 if __name__ == '__main__':
     net = Network([784, 30, 10])
-    # mndata = MNIST('./mnist_data')
+    mndata = MNIST('./mnist_data')
 
     # images, labels = mndata.load_training() # example data: image [0,156,255,..., 0], label 4
     # training_data = []
@@ -126,4 +126,23 @@ if __name__ == '__main__':
 
     # net.fit(training_data)
     # net.save_wb()
-    net.load_wb()
+    net.load_wb() # load weights and biases from wb_save.pkl
+
+    images, labels = mndata.load_testing()
+    test_data = []
+    for i, j in zip(images, labels): # ready data for network. pixels: floats {0..1}
+        i = np.array(i, dtype='f')/255
+        im = np.array(i)[np.newaxis].T # transpose from [0, 0, 0.24, ... 0] to [[0], [0], [0.24], .. [0]]
+        # since network predicting does not need labels, we keep the label as int{0-9} for use later
+        test_data.append((im,j))
+
+    # evaluate network with test data
+    totaln = len(test_data)
+    failn = 0
+    for t in test_data:
+        prediction = np.argmax(net.predict(t[0])) # highest valued prediction
+        truth = t[1]
+        # print(truth, prediction)
+        if(truth != prediction):
+            failn+=1
+    print(failn,"/",totaln, "failed")
