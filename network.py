@@ -1,5 +1,6 @@
 # network based on Michael Nielsen's http://neuralnetworksanddeeplearning.com/
 import numpy as np # mathematical functions and vectors/matrices
+from mnist import MNIST # loading mnist data https://github.com/sorki/python-mnist/
 
 class Network():
     def __init__(self, layer_sizes, learning_config=[3.0, 10, 30]):
@@ -81,7 +82,7 @@ class Network():
         delta = (activations[-1]-y) * sigmoid_prime(zs[-1])
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
-        
+
         for l in range(2, self.num_layers):
             z = zs[-l]
             sp = sigmoid_prime(z)
@@ -100,3 +101,18 @@ def sigmoid_prime(v):
 
 if __name__ == '__main__':
     net = Network([784, 30, 10])
+    mndata = MNIST('./training_data')
+
+    images, labels = mndata.load_training() # example data: image [0,156,255,..., 0], label 4
+    training_data = []
+    for i, j in zip(images, labels): # ready data for network.
+        i = np.array(i, dtype='f')/255 # change pixel value range from ints {0-255} to floats {0..1}
+        im = np.array(i)[np.newaxis].T # transpose from [0, 0, 0.24, ... 0] to [[0], [0], [0.24], .. [0]]
+
+        lb = np.zeros(10) # change structure from single int to array. example:  5 to [0,0,0,0,0,1,0,0,0]
+        lb[j] = 1
+        lb = lb[np.newaxis].T
+
+        training_data.append((im,lb))
+
+    net.fit(training_data)
