@@ -17,12 +17,12 @@ class Canvas(tk.Canvas):
         self.delete(tk.ALL) # deletes all items on the canvas
 
     def save(self, event=None):
-        """ save screenshot of the canvas stored as postscript file """
+        """ save screenshot of the canvas to file """
         print("saving")
         x = self.winfo_rootx()
         y = self.winfo_rooty()
         offset = self.border_w*2 # needed because of the canvas' border
-        ImageGrab.grab((x+offset,y+offset,x+self.width+offset,y+self.height+offset)).save('in.png') # 10
+        ImageGrab.grab((x+offset,y+offset,x+self.width+offset,y+self.height+offset)).save('in.png')
 
 class Pen():
     def __init__(self, canvas):
