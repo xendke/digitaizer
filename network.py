@@ -1,7 +1,7 @@
 # network based on Michael Nielsen's http://neuralnetworksanddeeplearning.com/
 import numpy as np # mathematical functions and vectors/matrices
 import pickle as pkl # saving/loading weights and biases to/from a file
-import mnloader
+if (__name__ == '__main__'): import mnloader
 
 class Network():
     def __init__(self, layer_sizes, learning_config=[3.0, 10, 30]):
