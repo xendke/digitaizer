@@ -1,8 +1,8 @@
 # MNIST
 mnist_data/
 
-# postscript (canvas screenshot)
-*.ps
+# canvas screenshot
+in.png
 
 # macOS
 .DS_Store
