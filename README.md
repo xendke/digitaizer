@@ -13,5 +13,5 @@ python3 main.py
 ```
 
 ## todo
-* process canvas screenshot to match MNIST data format
+* ~~process canvas screenshot to match MNIST data format~~
 * ~~implement NN~~
