@@ -17,9 +17,8 @@ class Canvas(tk.Canvas):
         print("clearing")
         self.delete(tk.ALL) # deletes all items on the canvas
 
-    def save(self, event=None):
-        """ save screenshot of the canvas to file and get pixel data """
-        print("saving")
+    def grab(self):
+        """ get current pixel data from canvas and save image to file"""
         x = self.winfo_rootx()
         y = self.winfo_rooty()
         offset = self.border_w # needed because of the canvas' border
@@ -30,6 +29,10 @@ class Canvas(tk.Canvas):
         canvas_image.save('in.png')
         pixel_data = canvas_image.getdata()
         return list(pixel_data)
+
+    def center_drawing(self):
+        """ TODO: find center of mass and center drawing """
+        pass
 
 class Pen():
     def __init__(self, canvas):
@@ -51,7 +54,7 @@ class Pen():
     def draw(self, event):
         """ draw a line for straight brush strokes and a circle for rounded corners """
         offset = self.width/2
-        if(self.canvas.isNew):
+        if(self.canvas.isNew): # clear the initial text prompt
             self.canvas.clear()
             self.canvas.isNew = False
         self.canvas.create_line(event.x, event.y, self.previous_x, self.previous_y, fill=self.color, width=self.width+1)
