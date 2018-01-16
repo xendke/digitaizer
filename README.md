@@ -14,6 +14,8 @@ python3 main.py
 ```
 
 ## todo
-* show prediction results in the GUI
+* center drawing before sending to network
+* live predictions
+* ~~show prediction results in the GUI~~
 * ~~process canvas screenshot to match MNIST data format~~
 * ~~implement NN~~
