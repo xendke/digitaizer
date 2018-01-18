@@ -1,5 +1,6 @@
 """ Canvas Widget """
 import tkinter as tk
+import numpy as np
 from PIL import ImageGrab, ImageFilter
 
 class Canvas(tk.Canvas):
@@ -31,8 +32,26 @@ class Canvas(tk.Canvas):
         return list(pixel_data)
 
     def center_drawing(self):
-        """ TODO: find center of mass and center drawing """
-        pass
+        """ center drawing by calculating the center of mass https://stackoverflow.com/questions/37519238/"""
+        x = self.winfo_rootx()
+        y = self.winfo_rooty()
+        offset = self.border_w # needed because of the canvas' border
+        canvas_image = ImageGrab.grab((x+offset,y+offset,x+self.width+offset,y+self.height+offset)).convert('L')
+        immat = canvas_image.load()
+        m = np.zeros((self.width, self.height))
+
+        for x in range(0, self.width):
+            for y in range(0, self.height):
+                m[x, y] = immat[(x, y)] != 255
+        m = m / np.sum(np.sum(m))
+        # marginal distributions
+        dx = np.sum(m, 1)
+        dy = np.sum(m, 0)
+        # expected values
+        cx = np.sum(dx * np.arange(self.width))
+        cy = np.sum(dy * np.arange(self.height))
+
+        self.move(tk.ALL, (self.width/2)-cx, (self.height/2)-cy)
 
 class Pen():
     def __init__(self, canvas):
