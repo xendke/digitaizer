@@ -12,6 +12,10 @@ def begin_prediction(net, canvas, res):
     predictions = net.predict(image_data)
     res.update(predictions)
 
+def clear_all(cnv, res):
+    cnv.clear()
+    res.default_text()
+
 def main():
     net = Network([784, 30, 10])
     net.load_wb()
@@ -25,7 +29,7 @@ def main():
 
     res = predictions_ui.Results(master)
 
-    bl = tk.Button(master, text="Clear Canvas", command=cnv.clear)
+    bl = tk.Button(master, text="Clear Canvas", command=lambda: clear_all(cnv, res))
     bl.grid(row=2, column=0)
 
     br = tk.Button(master, text="Predict It", command=lambda: begin_prediction(net, cnv, res))
