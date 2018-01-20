@@ -39,7 +39,7 @@ class Canvas(tk.Canvas):
         canvas_image = ImageGrab.grab((x+offset,y+offset,x+self.width+offset,y+self.height+offset)).convert('L')
         immat = canvas_image.load()
         m = np.zeros((self.width, self.height))
-
+        # calculate center of mass (cx, cy)
         for x in range(0, self.width):
             for y in range(0, self.height):
                 m[x, y] = immat[(x, y)] != 255
@@ -51,7 +51,8 @@ class Canvas(tk.Canvas):
         cx = np.sum(dx * np.arange(self.width))
         cy = np.sum(dy * np.arange(self.height))
 
-        self.move(tk.ALL, (self.width/2)-cx, (self.height/2)-cy)
+        self.move(tk.ALL, (self.width/2)-cx, (self.height/2)-cy) # use center of mass to center
+        self.update() # force the canvas to update immediately
 
 class Pen():
     def __init__(self, canvas):
