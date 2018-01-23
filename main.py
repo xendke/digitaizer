@@ -6,9 +6,7 @@ import numpy as np
 
 def begin_prediction(net, canvas, res):
     canvas.center_drawing()
-    image_data = np.absolute(np.array(canvas.grab())-255)/255 # reverse pixel value and transform to float {0..1}
-    image_data = image_data[np.newaxis].T # transpose
-    # print(image_data)
+    image_data = canvas.grab()
     predictions = net.predict(image_data)
     res.update(predictions)
 

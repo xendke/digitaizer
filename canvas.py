@@ -28,8 +28,12 @@ class Canvas(tk.Canvas):
                         .convert('L') # grayscale
                         .resize((28,28)))
         canvas_image.save('in.png')
-        pixel_data = canvas_image.getdata()
-        return list(pixel_data)
+        pixel_data = list(canvas_image.getdata()) # pixel_data is a list of the shade of each pixel 255: white, 0: black
+        # ready data for network eg: reverse pixel value, transform to float {0..1}, and transpose
+        pixel_data = np.absolute(np.array(pixel_data)-255)/255
+        pixel_data = pixel_data[np.newaxis].T
+
+        return pixel_data
 
     def center_drawing(self):
         """ center drawing by calculating the center of mass https://stackoverflow.com/questions/37519238/"""
