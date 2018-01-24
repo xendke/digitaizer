@@ -14,16 +14,22 @@ class Results():
         self.secondary.grid(row=1, column=2, rowspan=1)
 
     def default_text(self):
+        """ set placeholder values to the label widgets """
         self.primary_text.set("Prediction: N/A")
         self.secondary_text.set("Confidence: \n0 : N/A \n1 : N/A \n2 : N/A \n3 : N/A \n4 : N/A \n5 : N/A \n6 : N/A \n7 : N/A \n8 : N/A \n9 : N/A")
 
     def update(self, predictions):
         """ replace placeholders with results from prediction"""
-        prediction = np.argmax(predictions) # max index of all predictions is the prediction
+        predictions = predictions.T[0] # transpose
+        prediction = np.argmax(predictions) # get index of max value of all predictions is the network response
         self.primary_text.set("Prediction: " + str(prediction))
 
+        # construct dictionary where indexes are keys and the confidence results are values and then sort them as pairs
+        predictions_unsorted = {index : value for index, value in zip( range(0, len(predictions)) , predictions )}
+        predictions_sorted = sorted(predictions_unsorted.items(), key=lambda x: x[1], reverse=True)
+
         t = "Confidence: \n"
-        for i in range(0,10):
-            t+=str(i) + " : " + str(round(predictions[i][0]*100, 4)) + "%" + "\n" # convert to percent and round
+        for pair in predictions_sorted: # pair is tuple where pair[0] is label and pair[1] is value
+            t+=str(pair[0]) + " : " + str(round(pair[1]*100, 4)) + "%" + "\n" # convert to percent and round
             # the rounding will show some results to be 0% even though they are just really small floats
         self.secondary_text.set(t)

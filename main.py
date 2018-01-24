@@ -2,7 +2,6 @@ import tkinter as tk
 import canvas # canvas wrapper widget
 import predictions_ui
 from network import Network
-import numpy as np
 
 def begin_prediction(net, canvas, res):
     canvas.center_drawing()
