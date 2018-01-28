@@ -3,43 +3,44 @@ import canvas # canvas wrapper widget
 import predictions_ui
 from network import Network
 
-def begin_prediction(net, canvas, res):
-    canvas.center_drawing()
-    image_data = canvas.grab()
-    predictions = net.predict(image_data)
-    res.update(predictions)
 
-def clear_all(cnv, res):
-    cnv.clear()
-    res.default_text()
+class App(tk.Tk):
+    def __init__(self, parent):
+        tk.Tk.__init__(self, parent)
+        self.parent = parent
+        self.title("digitaizer")
 
-def main():
-    net = Network([784, 30, 10])
-    net.load_wb()
+        self.net = Network([784, 30, 10])
+        self.net.load_wb()
+        self.res = None
+        self.cnv = None
 
-    master = tk.Tk() # window application
-    master.title("digitaizer")
+        self.build_ui()
 
-    # using grid system to set the widgets in the window
-    cnv = canvas.Canvas(master)
-    cnv.grid(row=0, column=0, columnspan=2, rowspan=2)
+    def build_ui(self):
+        # using grid system to set the widgets in the window
+        self.cnv = canvas.Canvas(self)
+        self.cnv.grid(row=0, column=0, columnspan=2, rowspan=2)
 
-    res = predictions_ui.Results(master)
+        self.res = predictions_ui.Results(self)
 
-    bl = tk.Button(master, text="Clear Canvas", command=lambda: clear_all(cnv, res))
-    bl.grid(row=2, column=0)
+        bl = tk.Button(self, text="Clear Canvas", command=self.clear_all)
+        bl.grid(row=2, column=0)
 
-    br = tk.Button(master, text="Predict It", command=lambda: begin_prediction(net, cnv, res))
-    br.grid(row=2, column=1)
+        br = tk.Button(self, text="Predict It", command=self.begin_prediction)
+        br.grid(row=2, column=1)
 
-    master.mainloop() # this does the same as below and it runs the app constantly refreshes it
-    # while True:
-    #     try:
-    #         master.update_idletasks()
-    #         master.update()
-    #     except tk.TclError:
-    #         print("done")
-    #         break
+    def begin_prediction(self):
+        self.cnv.center_drawing()
+        image_data = self.cnv.grab()
+        predictions = self.net.predict(image_data)
+        self.res.update(predictions)
 
-if(__name__=="__main__"): # only run main() if python executes main.py as its starting point: python main.py
-    main()
+    def clear_all(self):
+        self.cnv.clear()
+        self.res.default_text()
+
+
+if __name__ == "__main__":  # only run main() if python executes main.py as its starting point: python main.py
+    master = App(None)
+    master.mainloop()
