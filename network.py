@@ -1,16 +1,19 @@
 # network based on Michael Nielsen's http://neuralnetworksanddeeplearning.com/
 import numpy as np # mathematical functions and vectors/matrices
 import pickle as pkl # saving/loading weights and biases to/from a file
-if (__name__ == '__main__'): import mnloader
+if __name__ == '__main__':
+    import mnloader
 
-class Network():
+
+class Network(object):
     def __init__(self, layer_sizes, learning_config=[3.0, 10, 30]):
-        self.layer_sizes = layer_sizes # an array of integers. eg: [3, 4, 2] 3 Input Neurons, 4 Hidden Neurons, 2 Output Neurons
+        self.layer_sizes = layer_sizes  # an array of integers.
+        # eg: [3, 4, 2] 3 Input Neurons, 4 Hidden Neurons, 2 Output Neurons
         self.num_layers = len(layer_sizes)
 
         self.learning_rate, self.mini_batch_size, self.epochs = learning_config # Network hyperparameters
 
-        self.biases = [np.random.randn(y, 1) for y in layer_sizes[1:]] # TODO: find better random function to ease learning
+        self.biases = [np.random.randn(y, 1) for y in layer_sizes[1:]]
         """ example representation of biases for layer_sizes = [3,4,2]
         [np.random.randn(y, 1) for y in [4,2]]
         [
@@ -48,7 +51,8 @@ class Network():
         return io
 
     def fit(self, training_data):
-        """ train the network - training_data is set of tuples (x, y) where x is input(pixel data) and y is true output(label)"""
+        """ train the network
+        training_data : set of tuples (x, y) where x is input(pixel data) and y is true output(label) """
         np.array(training_data)
         size = len(training_data)
         for i in range(0, self.epochs):
@@ -103,23 +107,26 @@ class Network():
     def mnist_eval(self):
         """ evaluate network with MNIST test data """
         test_data = mnloader.get_testing()
-        totaln = len(test_data)
-        failn = 0
+        total_n = len(test_data)
+        fail_n = 0
         for t in test_data:
-            prediction = np.argmax(self.predict(t[0])) # highest valued prediction
+            prediction = np.argmax(self.predict(t[0]))  # highest valued prediction
             truth = t[1]
             # print(truth, prediction)
-            if(truth != prediction):
-                failn+=1
-        print(failn,"/",totaln, "failed")
+            if truth != prediction:
+                fail_n += 1
+        print(fail_n, "/", total_n, "failed")
+
 
 def sigmoid(v):
     """ v is a Numpy array. the sigmoid function will be applied to each element in v. """
     return 1.0/(1.0+np.exp(-v))
 
+
 def sigmoid_prime(v):
     """ derivative of the sigmoid function above."""
     return sigmoid(v)*(1-sigmoid(v))
+
 
 if __name__ == '__main__':
     net = Network([784, 30, 10])

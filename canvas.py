@@ -3,19 +3,26 @@ import tkinter as tk
 import numpy as np
 from PIL import ImageGrab, ImageFilter
 
+
 class Canvas(tk.Canvas):
     def __init__(self, master, w=400, h=400):
         self.border_w = 5
-        super().__init__(master,width=w, height=h, background="white", cursor="circle", bd=self.border_w, relief="ridge",highlightthickness=0)
+        super().__init__(master,
+                         width=w,
+                         height=h,
+                         background="white",
+                         cursor="circle",
+                         bd=self.border_w,
+                         relief="ridge",
+                         highlightthickness=0)
         self.width = w
         self.height = h
         self.file_name = "in.png"  # name of the screenshot file that self.save uses
         self.create_text(self.width/2, self.height/2, text="Write Your Digit Here", anchor="center")
         self.isNew = True
-        Pen(self) # used draw on canvas
+        Pen(self)  # used draw on canvas
 
-    def clear(self, event=None):
-        print("clearing")
+    def clear(self):
         self.delete(tk.ALL)  # deletes all items on the canvas
 
     def grab(self):
@@ -27,7 +34,7 @@ class Canvas(tk.Canvas):
                         .filter(ImageFilter.GaussianBlur(radius=2))
                         .convert('L')  # greyscale
                         .resize((28, 28)))
-        canvas_image.save(self.file_name)
+        canvas_image.save(self.file_name)  # save canvas to a file (used for debugging, not actually used by network)
         pixel_data = list(canvas_image.getdata())  # pixel_data is a list of the shade of each pixel: 255-white, 0-black
         # ready data for network eg: reverse pixel value, transform to float {0..1}, and transpose
         pixel_data = np.absolute(np.array(pixel_data)-255)/255
@@ -58,7 +65,8 @@ class Canvas(tk.Canvas):
         self.move(tk.ALL, (self.width/2)-cx, (self.height/2)-cy)  # use center of mass to center
         self.update()  # force the canvas to update immediately
 
-class Pen():
+
+class Pen(object):
     def __init__(self, canvas):
         self.previous_x = 0
         self.previous_y = 0
@@ -78,7 +86,7 @@ class Pen():
     def draw(self, event):
         """ draw a line for straight brush strokes and a circle for rounded corners """
         offset = self.width/2
-        if(self.canvas.isNew):  # clear the initial text prompt
+        if self.canvas.isNew:  # clear the initial text prompt
             self.canvas.clear()
             self.canvas.isNew = False
         self.canvas.create_line(event.x, event.y, self.previous_x, self.previous_y, fill=self.color, width=self.width+1)

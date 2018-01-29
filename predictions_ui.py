@@ -1,9 +1,10 @@
 import tkinter as tk
 import numpy as np
 
-class Results():
+
+class Results(object):
     def __init__(self, master):
-        self.primary_text = tk.StringVar() # placeholders
+        self.primary_text = tk.StringVar()  # placeholders
         self.secondary_text = tk.StringVar()
         self.default_text()
 
@@ -16,7 +17,10 @@ class Results():
     def default_text(self):
         """ set placeholder values to the label widgets """
         self.primary_text.set("Prediction: N/A")
-        self.secondary_text.set("Confidence: \n0 : N/A \n1 : N/A \n2 : N/A \n3 : N/A \n4 : N/A \n5 : N/A \n6 : N/A \n7 : N/A \n8 : N/A \n9 : N/A")
+        sec = "Confidence: "
+        for i in range(0, 10):
+            sec += "\n\n" + str(i) + " : N/A"
+        self.secondary_text.set(sec)
 
     def update(self, predictions):
         """ replace placeholders with results from prediction"""
@@ -28,13 +32,9 @@ class Results():
         predictions_unsorted = {index : value for index, value in zip( range(0, len(predictions)) , predictions )}
         predictions_sorted = sorted(predictions_unsorted.items(), key=lambda x: x[1], reverse=True)
 
-        t = "Confidence: \n"
-        i = 0
+        t = "Confidence:"
         spacer = "\n\n"
         for pair in predictions_sorted:  # pair is tuple where pair[0] is label and pair[1] is value
-            if(i==9):
-                spacer="\n"
-            t += str(pair[0]) + " : " + str(round(pair[1] * 100, 4)) + "%" + spacer  # convert to percent and round
+            t += spacer + str(pair[0]) + " : " + str(round(pair[1] * 100, 4)) + "%"  # convert to percent and round
             # the rounding will show some results to be 0% even though they are just really small floats
-            i+=1
         self.secondary_text.set(t)
