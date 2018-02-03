@@ -17,7 +17,7 @@ class Canvas(tk.Canvas):
                          highlightthickness=0)
         self.width = w
         self.height = h
-        self.file_name = "in.png"  # name of the screenshot file that self.save uses
+        self.file_name = "in.gif"  # name of the screenshot file that self.save uses
         self.create_text(self.width/2, self.height/2, text="Write Your Digit Here", anchor="center")
         self.isNew = True
         Pen(self)  # used draw on canvas
