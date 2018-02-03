@@ -4,6 +4,8 @@ import numpy as np
 
 class Results(object):
     def __init__(self, master):
+        self.input_img_file = tk.PhotoImage(file="in.gif")
+
         self.primary_text = tk.StringVar()  # placeholders
         self.secondary_text = tk.StringVar()
         self.default_text()
@@ -13,6 +15,10 @@ class Results(object):
 
         self.secondary = tk.Message(master, textvariable=self.secondary_text, justify='left')
         self.secondary.grid(row=1, column=2, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
+
+        self.input_img = tk.Label(master, image=self.input_img_file, width=50, height=50, anchor=tk.CENTER)
+        self.input_img.image = self.input_img_file
+        self.input_img.grid(row=2, column=2, rowspan=1, columnspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
 
     def default_text(self):
         """ set placeholder values to the label widgets """
@@ -24,6 +30,12 @@ class Results(object):
 
     def update(self, predictions):
         """ replace placeholders with results from prediction"""
+        # use latest image from screenshot and display it
+        self.input_img_file = tk.PhotoImage(file="in.gif")
+        self.input_img.configure(image=self.input_img_file)
+        self.input_img.image = self.input_img_file
+
+        # find top prediction
         predictions = predictions.T[0]  # transpose
         prediction = np.argmax(predictions)  # get index of max value of all predictions is the network response
         self.primary_text.set("Prediction: " + str(prediction))
