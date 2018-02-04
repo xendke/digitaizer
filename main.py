@@ -38,7 +38,7 @@ class App(tk.Tk):
 
     def clear_all(self):
         self.cnv.clear()
-        self.res.default_text()
+        self.res.clear_results()
 
 
 if __name__ == "__main__":  # only run main() if python executes main.py as its starting point: python main.py
