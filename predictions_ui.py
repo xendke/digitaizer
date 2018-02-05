@@ -28,8 +28,12 @@ class Results(object):
 
     def clear_results(self):
         self.default_text()
-        self.input_img.image.blank()
-        self.input_img.image = None
+        try:
+            self.input_img.image.blank()
+            self.input_img.image = None
+        except AttributeError:
+            # input_img was already clear, and image does not exist
+            pass
 
     def update(self, predictions):
         """ replace placeholders with results from prediction"""
