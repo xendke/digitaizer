@@ -4,9 +4,9 @@ import numpy as np
 
 class Results(object):
     def __init__(self, master):
-        self.primary_text = tk.StringVar()  # placeholders
+        self.primary_text = tk.StringVar()
         self.secondary_text = tk.StringVar()
-        self.default_text()
+        self.default_text()  # placeholders
 
         self.primary = tk.Message(master, textvariable=self.primary_text, width=200, justify='left', font=("Helvetica", 20))
         self.primary.grid(row=0, column=2, rowspan=1, sticky=tk.N+tk.S)
@@ -14,6 +14,7 @@ class Results(object):
         self.secondary = tk.Message(master, textvariable=self.secondary_text, justify='left')
         self.secondary.grid(row=1, column=2, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
 
+        # setting up label where  screenshot of input canvas will be placed
         input_img_file = tk.PhotoImage()
         self.input_img = tk.Label(master, image=input_img_file, width=50, height=50, anchor=tk.CENTER)
         self.input_img.grid(row=2, column=2, rowspan=1, columnspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
@@ -39,6 +40,7 @@ class Results(object):
         """ replace placeholders with results from prediction"""
         # use latest image from screenshot and display it
         input_img_file = tk.PhotoImage(file="in.gif")
+        input_img_file = input_img_file.zoom(2, 2)  # resize image 2x
         self.input_img.configure(image=input_img_file)
         self.input_img.image = input_img_file
 
