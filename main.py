@@ -1,5 +1,5 @@
 import tkinter as tk
-import canvas # canvas wrapper widget
+import canvas  # canvas wrapper widget
 import predictions_ui
 from network import Network
 
@@ -27,10 +27,11 @@ class App(tk.Tk):
         bl = tk.Button(self, text="Clear Canvas", command=self.clear_all)
         bl.grid(row=2, column=0)
 
-        br = tk.Button(self, text="Predict It", command=self.begin_prediction)
+        br = tk.Button(self, text="Predict It", command=self.predict)
         br.grid(row=2, column=1)
 
-    def begin_prediction(self):
+    def predict(self):
+        """ go through process of predicting the digit drawn """
         self.cnv.center_drawing()
         image_data = self.cnv.grab()
         predictions = self.net.predict(image_data)
