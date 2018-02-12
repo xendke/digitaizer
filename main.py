@@ -30,6 +30,11 @@ class App(tk.Tk):
         br = tk.Button(self, text="Predict It", command=self.predict)
         br.grid(row=2, column=1)
 
+    def live_predict(self, event):
+        """ callback used by canvas when mouse was released """
+        del event  # event not needed.
+        self.predict()
+
     def predict(self):
         """ go through process of predicting the digit drawn """
         self.cnv.center_drawing()

@@ -100,3 +100,5 @@ class Pen(object):
         cnv.bind("<Motion>", self.hovered)  # hover
         cnv.bind("<Button-1>", self.hovered)  # single left click, this helps reset coordinates when having left canvas
         cnv.bind("<Enter>", self.hovered)  # mouse Entered the canvas
+
+        cnv.bind("<ButtonRelease-1>", cnv.master.live_predict)  # begin prediction process when mouse is lifted
