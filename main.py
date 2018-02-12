@@ -9,6 +9,7 @@ class App(tk.Tk):
         tk.Tk.__init__(self, parent)
         self.parent = parent
         self.title("digitaizer")
+        self.resizable(0, 0)  # prevent resizing
 
         self.net = Network([784, 30, 10])
         self.net.load_wb()
