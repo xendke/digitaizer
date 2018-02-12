@@ -23,7 +23,8 @@ python3 main.py
 ```
 
 ## todo
-* live predictions
+* option to not center image after live prediction
+* ~~live predictions~~
 * ~~center drawing before sending to network~~
 * ~~show prediction results in the GUI~~
 * ~~process canvas screenshot to match MNIST data format~~
