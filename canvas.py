@@ -20,14 +20,18 @@ class Canvas(tk.Canvas):
         self.file_name = "in.gif"  # name of the screenshot file that self.save uses
         self.create_text(self.width/2, self.height/2, text="Write Your Digit Here", anchor="center")
         self.isNew = True
+        self.isEmpty = True
         self.delay_id = None  # holds the id of the delay started since the pen has been lifted from canvas
         Pen(self)  # used draw on canvas
 
     def clear(self):
         self.delete(tk.ALL)  # deletes all items on the canvas
+        self.isEmpty = True
 
     def grab(self):
         """ get current pixel data from canvas and save image to file"""
+        if self.isEmpty:
+            raise ValueError('Canvas is empty.')
         x = self.winfo_rootx()
         y = self.winfo_rooty()
         offset = self.border_w  # needed because of the canvas' border
@@ -45,6 +49,8 @@ class Canvas(tk.Canvas):
 
     def center_drawing(self):
         """ center drawing by calculating the center of mass https://stackoverflow.com/questions/37519238/"""
+        if self.isEmpty:
+            raise ValueError('Canvas is empty.')
         x = self.winfo_rootx()
         y = self.winfo_rooty()
         offset = self.border_w # needed because of the canvas' border
@@ -94,6 +100,7 @@ class Pen(object):
     def draw(self, event):
         """ draw a line for straight brush strokes and a circle for rounded corners """
         self.canvas.predict_timeout()  # reset timeout
+        self.canvas.isEmpty = False
         offset = self.width/2
         if self.canvas.isNew:  # clear the initial text prompt
             self.canvas.clear()

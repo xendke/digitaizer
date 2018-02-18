@@ -34,8 +34,12 @@ class App(tk.Tk):
 
     def predict(self):
         """ go through process of predicting the digit drawn """
-        self.cnv.center_drawing()
-        image_data = self.cnv.grab()
+        try:
+            self.cnv.center_drawing()
+            image_data = self.cnv.grab()
+        except ValueError:
+            print("Empty canvas. Will not predict.")
+            return
         predictions = self.net.predict(image_data)
         self.res.update(predictions)
 
