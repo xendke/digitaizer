@@ -16,8 +16,8 @@ class Results(object):
 
         # setting up label where  screenshot of input canvas will be placed
         input_img_file = tk.PhotoImage()
-        self.input_img = tk.Label(master, image=input_img_file, width=50, height=50, anchor=tk.CENTER)
-        self.input_img.grid(row=2, column=2, rowspan=1, columnspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
+        self.input_img = tk.Label(master, image=input_img_file, width=50, height=50, bd=2, relief="groove")
+        self.input_img.grid(row=2, column=2, rowspan=1, columnspan=1, ipadx=2, ipady=2)
 
     def default_text(self):
         """ set placeholder values to the label widgets """
