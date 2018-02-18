@@ -20,6 +20,7 @@ class Canvas(tk.Canvas):
         self.file_name = "in.gif"  # name of the screenshot file that self.save uses
         self.create_text(self.width/2, self.height/2, text="Write Your Digit Here", anchor="center")
         self.isNew = True
+        self.delay_id = None  # holds the id of the delay started since the pen has been lifted from canvas
         Pen(self)  # used draw on canvas
 
     def clear(self):
@@ -65,6 +66,12 @@ class Canvas(tk.Canvas):
         self.move(tk.ALL, (self.width/2)-cx, (self.height/2)-cy)  # use center of mass to center
         self.update()  # force the canvas to update immediately
 
+    def predict_timeout(self):
+        """ cancel old and set a new single timeout until prediction begins """
+        if self.delay_id is not None:
+            self.after_cancel(self.delay_id)
+        self.delay_id = self.after(750, self.master.predict)  # 1.5 seconds
+
 
 class Pen(object):
     def __init__(self, canvas):
@@ -82,9 +89,11 @@ class Pen(object):
 
     def hovered(self, event):
         self.set_previous(event.x, event.y)
+        self.canvas.predict_timeout()  # reset timeout
 
     def draw(self, event):
         """ draw a line for straight brush strokes and a circle for rounded corners """
+        self.canvas.predict_timeout()  # reset timeout
         offset = self.width/2
         if self.canvas.isNew:  # clear the initial text prompt
             self.canvas.clear()
@@ -101,4 +110,4 @@ class Pen(object):
         cnv.bind("<Button-1>", self.hovered)  # single left click, this helps reset coordinates when having left canvas
         cnv.bind("<Enter>", self.hovered)  # mouse Entered the canvas
 
-        cnv.bind("<ButtonRelease-1>", cnv.master.live_predict)  # begin prediction process when mouse is lifted
+        cnv.bind("<ButtonRelease-1>", lambda ev: cnv.predict_timeout())  # begin prediction process when mouse is lifted

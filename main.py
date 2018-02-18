@@ -12,11 +12,12 @@ class App(tk.Tk):
         self.resizable(0, 0)  # prevent resizing
 
         self.net = Network([784, 30, 10])
-        self.net.load_wb()
-        self.res = None
-        self.cnv = None
+        self.net.load_wb()  # load weights and biases for neural network form pkl file
+        self.res = None  # results widget
+        self.cnv = None  # canvas widget
 
         self.build_ui()
+        self.bind_actions()
 
     def build_ui(self):
         # using grid system to set the widgets in the window
@@ -28,13 +29,8 @@ class App(tk.Tk):
         bl = tk.Button(self, text="Clear Canvas", command=self.clear_all)
         bl.grid(row=2, column=0)
 
-        br = tk.Button(self, text="Predict It", command=self.predict)
+        br = tk.Button(self, text="Predict Drawing", command=self.predict)
         br.grid(row=2, column=1)
-
-    def live_predict(self, event):
-        """ callback used by canvas when mouse was released """
-        del event  # event not needed.
-        self.predict()
 
     def predict(self):
         """ go through process of predicting the digit drawn """
@@ -46,6 +42,10 @@ class App(tk.Tk):
     def clear_all(self):
         self.cnv.clear()
         self.res.clear_results()
+
+    def bind_actions(self):
+        """ right click anywhere on the app clears canvas and results """
+        self.bind("<Button-2>", lambda ev: self.clear_all())
 
 
 if __name__ == "__main__":  # only run main() if python executes main.py as its starting point: python main.py
