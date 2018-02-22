@@ -10,6 +10,7 @@ class App(tk.Tk):
         self.parent = parent
         self.title("digitaizer")
         self.resizable(0, 0)  # prevent resizing
+        self.after(250, self.center)  # center window after window has become visible
 
         self.net = Network([784, 30, 10])
         self.net.load_wb()  # load weights and biases for neural network form pkl file
@@ -42,6 +43,13 @@ class App(tk.Tk):
             return
         predictions = self.net.predict(image_data)
         self.res.update(predictions)
+
+    def center(self):
+        """ center the window to the center of the screen """
+        # for this to work correctly, reqwidth/height must have been set by tkinter, so we call this function after(250)
+        x = (self.winfo_screenwidth() - self.winfo_reqwidth()) / 2
+        y = (self.winfo_screenheight() - self.winfo_reqheight()) / 2
+        self.geometry("+%d+%d" % (x, y))
 
     def clear_all(self):
         self.cnv.clear()
