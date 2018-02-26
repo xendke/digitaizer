@@ -15,6 +15,7 @@ class Network(object):
         self.learning_rate, self.mini_batch_size, self.epochs = learning_config # Network hyper-parameters
 
         self.biases = [np.random.randn(y, 1) for y in layer_sizes[1:]]
+
         """ example representation of biases for layer_sizes = [3,4,2]
         [np.random.randn(y, 1) for y in [4,2]]
         [
@@ -29,6 +30,7 @@ class Network(object):
         """
 
         self.weights = [np.random.randn(y, x) for x, y in zip(layer_sizes[:-1], layer_sizes[1:])]
+
         """ example representation of weights for layer_sizes = [3,4,2]
         [np.random.randn(y, x) for x, y in zip([3,4], [4,2])]
         [

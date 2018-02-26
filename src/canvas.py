@@ -31,21 +31,22 @@ class Canvas(tk.Canvas):
 
     def grab(self):
         """ get current pixel data from canvas and save image to file"""
-        if self.isEmpty:
+        if not self.isEmpty:
+            x = self.winfo_rootx()
+            y = self.winfo_rooty()
+            offset = self.border_w  # needed because of the canvas' border
+            canvas_image = (ImageGrab.grab((x+offset, y+offset, x+self.width+offset, y+self.height+offset))
+                            .filter(ImageFilter.GaussianBlur(radius=2))
+                            .convert('L')  # greyscale
+                            .resize((28, 28)))
+            path = project_path("data", self.file_name)
+            canvas_image.save(path)  # save canvas to a file (used by prediction UI)
+            pixel_data = list(canvas_image.getdata())  # pixel_data is a list of the shade of each pixel: 255-white, 0-black
+            # ready data for network eg: reverse pixel value, transform to float {0..1}, and transpose
+            pixel_data = np.absolute(np.array(pixel_data)-255)/255
+            pixel_data = pixel_data[np.newaxis].T
+        else:
             raise ValueError('Canvas is empty.')
-        x = self.winfo_rootx()
-        y = self.winfo_rooty()
-        offset = self.border_w  # needed because of the canvas' border
-        canvas_image = (ImageGrab.grab((x+offset, y+offset, x+self.width+offset, y+self.height+offset))
-                        .filter(ImageFilter.GaussianBlur(radius=2))
-                        .convert('L')  # greyscale
-                        .resize((28, 28)))
-        path = project_path("data", self.file_name)
-        canvas_image.save(path)  # save canvas to a file (used by prediction UI)
-        pixel_data = list(canvas_image.getdata())  # pixel_data is a list of the shade of each pixel: 255-white, 0-black
-        # ready data for network eg: reverse pixel value, transform to float {0..1}, and transpose
-        pixel_data = np.absolute(np.array(pixel_data)-255)/255
-        pixel_data = pixel_data[np.newaxis].T
 
         return pixel_data
 
