@@ -40,8 +40,8 @@ class Results(object):
     def update(self, predictions):
         """ replace placeholders with results from prediction"""
         # use latest image from screenshot and display it
-        path = project_path()
-        input_img_file = tk.PhotoImage(file=path+"in.gif")
+        path = project_path("data", "in.gif")
+        input_img_file = tk.PhotoImage(file=path)
         input_img_file = input_img_file.zoom(2, 2)  # resize image 2x
         self.input_img.configure(image=input_img_file)
         self.input_img.image = input_img_file

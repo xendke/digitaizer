@@ -98,13 +98,13 @@ class Network(object):
         return (nabla_b, nabla_w)
 
     def save_wb(self):
-        path = project_path()
-        with open(path+'wb_save.pkl', 'wb') as f:
+        path = project_path("data", "wb_save.pkl")
+        with open(path, 'wb') as f:
             pkl.dump([self.weights, self.biases], f)
 
     def load_wb(self):
-        path = project_path()
-        with open(path+'wb_save.pkl', 'rb') as f:
+        path = project_path("data", "wb_save.pkl")
+        with open(path, 'rb') as f:
             self.weights, self.biases = pkl.load(f)
 
     def mnist_eval(self):
