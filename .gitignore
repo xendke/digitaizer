@@ -1,3 +1,7 @@
+# cx_freeze
+icon.icns
+build/
+
 # MNIST
 mnist_data/
 
