@@ -1,7 +1,8 @@
 # network based on Michael Nielsen's http://neuralnetworksanddeeplearning.com/
-import numpy as np # mathematical functions and vectors/matrices
-import pickle as pkl # saving/loading weights and biases to/from a file
-if __name__ == '__main__':
+import numpy as np  # mathematical functions and vectors/matrices
+import pickle as pkl  # saving/loading weights and biases to/from a file
+from utils import project_path
+if __name__ == '__main__':  # needed only if trying to train the network
     import mnloader
 
 
@@ -11,7 +12,7 @@ class Network(object):
         # eg: [3, 4, 2] 3 Input Neurons, 4 Hidden Neurons, 2 Output Neurons
         self.num_layers = len(layer_sizes)
 
-        self.learning_rate, self.mini_batch_size, self.epochs = learning_config # Network hyperparameters
+        self.learning_rate, self.mini_batch_size, self.epochs = learning_config # Network hyper-parameters
 
         self.biases = [np.random.randn(y, 1) for y in layer_sizes[1:]]
         """ example representation of biases for layer_sizes = [3,4,2]
@@ -97,11 +98,13 @@ class Network(object):
         return (nabla_b, nabla_w)
 
     def save_wb(self):
-        with open('wb_save.pkl', 'wb') as f:
+        path = project_path()
+        with open(path+'wb_save.pkl', 'wb') as f:
             pkl.dump([self.weights, self.biases], f)
 
     def load_wb(self):
-        with open('wb_save.pkl', 'rb') as f:  # Python 3: open(..., 'rb')
+        path = project_path()
+        with open(path+'wb_save.pkl', 'rb') as f:
             self.weights, self.biases = pkl.load(f)
 
     def mnist_eval(self):

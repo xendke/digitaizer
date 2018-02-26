@@ -1,6 +1,7 @@
 """ Canvas Widget """
 import tkinter as tk
 import numpy as np
+from utils import project_path
 from PIL import ImageGrab, ImageFilter
 
 
@@ -39,7 +40,8 @@ class Canvas(tk.Canvas):
                         .filter(ImageFilter.GaussianBlur(radius=2))
                         .convert('L')  # greyscale
                         .resize((28, 28)))
-        canvas_image.save(self.file_name)  # save canvas to a file (used for debugging, not actually used by network)
+        path = project_path()
+        canvas_image.save(path+self.file_name)  # save canvas to a file (used by prediction UI)
         pixel_data = list(canvas_image.getdata())  # pixel_data is a list of the shade of each pixel: 255-white, 0-black
         # ready data for network eg: reverse pixel value, transform to float {0..1}, and transpose
         pixel_data = np.absolute(np.array(pixel_data)-255)/255
