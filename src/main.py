@@ -1,7 +1,12 @@
 import tkinter as tk
 import canvas  # canvas wrapper widget
 import predictions_ui
-from network import Network
+import network
+import os
+if os.name == 'nt':
+    # if on Windows, disable highDPI scaling which ruins Pillow's ScreenGrab
+    from ctypes import windll
+    windll.shcore.SetProcessDpiAwareness(1)
 
 
 class App(tk.Tk):
@@ -12,7 +17,7 @@ class App(tk.Tk):
         self.resizable(0, 0)  # prevent resizing
         self.after(250, self.center)  # center window after window has become visible
 
-        self.net = Network([784, 30, 10])
+        self.net = network.Network([784, 30, 10])
         self.net.load_wb()  # load weights and biases for neural network form pkl file
         self.res = None  # results widget
         self.cnv = None  # canvas widget
