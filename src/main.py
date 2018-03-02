@@ -23,7 +23,7 @@ class App(tk.Tk):
         self.cnv = None  # canvas widget
 
         self.build_ui()
-        self.bind_actions()
+        # self.bind_actions()
 
     def build_ui(self):
         # using grid system to set the widgets in the window
@@ -43,6 +43,7 @@ class App(tk.Tk):
         try:
             self.cnv.center_drawing()
             image_data = self.cnv.grab()
+            self.cnv.has_been_predicted = True
         except ValueError:
             print("Empty canvas. Will not predict.")
             return
