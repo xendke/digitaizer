@@ -14,6 +14,10 @@ class App(tk.Tk):
         tk.Tk.__init__(self, parent)
         self.parent = parent
         self.title("digitaizer")
+        try:
+            self.iconbitmap(default="icon.ico")
+        except tk.TclError:
+            print("icon.ico not found")
         self.resizable(0, 0)  # prevent resizing
         self.after(250, self.center)  # center window after window has become visible
 

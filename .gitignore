@@ -1,5 +1,6 @@
 # cx_freeze
 icon.icns
+icon.ico
 build/
 
 # MNIST

@@ -4,7 +4,7 @@ import os
 from cx_Freeze import setup, Executable
 
 additional_mods = ['numpy.core._methods', 'numpy.lib.format']
-include_files = ['src/data/']
+include_files = ['src/data/', 'icon.ico']
 
 base = None
 if sys.platform == "win32":
@@ -22,7 +22,7 @@ if sys.platform == "win32":
 setup(
     name="Digitaizer",
     version="1.0",
-    description="Handwritten Digit Recognition using Neural Network.",
+    description="Handwritten Digit Recognition using a Neural Network.",
     author='Juan Xavier Gomez',
     author_email='xendke@gmail.com',
     url='https://www.xendke.io/',
@@ -36,5 +36,5 @@ setup(
             'iconfile': 'icon.icns'
         }
     },
-    executables=[Executable("src/main.py", base=base)]
+    executables=[Executable(script="src/main.py", base=base, icon="icon.ico")]
 )
