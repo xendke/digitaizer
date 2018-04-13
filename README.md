@@ -1,28 +1,35 @@
-# digit*ai*zer
+# Digit*ai*zer
 Numerical Digit Recognition Demo App (Using Neural Networks and Machine Learning)
 
-## prerequisites
+## Prerequisites
 
 * python v3
 * numpy
 * Pillow [link](https://github.com/python-pillow/Pillow)
 * python-mnist [link](https://github.com/sorki/python-mnist) (needed only for re-training network)
 
-## installing prerequisites
+## Installing Prerequisites
 make sure python v3 is installed.  
 make sure pip for python v3 is installed.  
 (the command below might be pip3 or pip)
- ```
+```
 pip3 install Pillow
 pip3 install numpy
- ```
+```
+### Linux Only Prerequisites
+* pyscreenshot (PIL's ImageGrab support for Linux)
+* scrot (backend to pyscreenshot)
+```
+pip3 install pyscreenshot
+sudo apt-get install scrot
+```
 
-## run
+## Run
 ```
 python3 main.py
 ```
 
-## todo
+## Todo
 * option to not center image after live prediction
 * ~~live predictions~~
 * ~~center drawing before sending to network~~

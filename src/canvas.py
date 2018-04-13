@@ -1,8 +1,13 @@
 """ Canvas Widget """
 import tkinter as tk
 import numpy as np
+from sys import platform
 from utils import project_path
-from PIL import ImageGrab, ImageFilter
+if (platform == "linux2" or platform == "linux"):
+    import pyscreenshot as ImageGrab
+else:
+    from PIL import ImageGrab
+from PIL import ImageFilter
 
 
 class Canvas(tk.Canvas):
@@ -36,7 +41,11 @@ class Canvas(tk.Canvas):
             x = self.winfo_rootx()
             y = self.winfo_rooty()
             offset = self.border_w  # needed because of the canvas' border
-            canvas_image = (ImageGrab.grab((x+offset, y+offset, x+self.width+offset, y+self.height+offset))
+            if (platform == "linux2" or platform == "linux"):
+                canvas_image = ImageGrab.grab((x+offset, y+offset, x+self.width+offset, y+self.height+offset), backend="scrot")
+            else:
+                canvas_image = ImageGrab.grab((x+offset, y+offset, x+self.width+offset, y+self.height+offset))
+            canvas_image = (canvas_image
                             .filter(ImageFilter.GaussianBlur(radius=2))
                             .convert('L')  # greyscale
                             .resize((28, 28)))
@@ -57,7 +66,11 @@ class Canvas(tk.Canvas):
             x = self.winfo_rootx()
             y = self.winfo_rooty()
             offset = self.border_w # needed because of the canvas' border
-            canvas_image = ImageGrab.grab((x+offset,y+offset,x+self.width+offset,y+self.height+offset)).convert('L')
+            if (platform == "linux2" or platform == "linux"):
+                canvas_image = ImageGrab.grab((x+offset, y+offset, x+self.width+offset, y+self.height+offset), backend="scrot")
+            else:
+                canvas_image = ImageGrab.grab((x+offset, y+offset, x+self.width+offset, y+self.height+offset))
+            canvas_image = canvas_image.convert('L')
             immat = canvas_image.load()
             m = np.zeros((self.width, self.height))
             # calculate center of mass (cx, cy)
