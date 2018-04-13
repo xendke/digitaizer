@@ -1,7 +1,7 @@
 # Digit*ai*zer
 Numerical Digit Recognition Demo App (Using Neural Networks and Machine Learning)
 
-![screenshot](https://i.imgur.com/7Kx7Sp3.png "Digitaizer 1.0")
+![screenshot](https://i.imgur.com/CQfMm5p.png "Digitaizer 1.0")
 
 ## Prerequisites
 
