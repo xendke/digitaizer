@@ -8,7 +8,7 @@ Numerical Digit Recognition Demo App (Using Neural Networks and Machine Learning
 * python v3
 * numpy
 * Pillow [link](https://github.com/python-pillow/Pillow)
-* python-mnist [link](https://github.com/sorki/python-mnist) (needed only for re-training network)
+* python-mnist [link](https://github.com/sorki/python-mnist) (needed only for re-training the neural network)
 
 ## Installing Prerequisites
 make sure python v3 is installed.  
