@@ -119,3 +119,8 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Node / Next.js
+apps/web/node_modules/
+apps/web/.next/
+apps/web/out/
