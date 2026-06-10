@@ -6,7 +6,6 @@ export default function Footer() {
       <div className="footer__top">
         <Logo size={22} />
         <nav className="footer__links">
-          <a href="#demo">Demo</a>
           <a href="#faq">FAQ</a>
         </nav>
       </div>

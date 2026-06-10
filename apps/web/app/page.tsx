@@ -8,16 +8,11 @@ export default function Home() {
     <>
       <Nav />
 
-      <main className="wrap hero" id="demo">
+      <main className="wrap hero" id="demo" style={{ paddingTop: 0 }}>
         <span className="eyebrow">Handwritten digit recognition</span>
         <h1>
           Draw a number. <em>Watch the network read it.</em>
         </h1>
-        <p className="hero__sub">
-          Sketch any digit and a neural network guesses what you wrote — with a
-          live confidence breakdown across every number from zero to nine. No
-          sign-up, works on any device.
-        </p>
       </main>
 
       <div className="wrap demo-wrap">
