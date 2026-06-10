@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
-
-export const dynamic = "force-dynamic";
 import Nav from "./components/Nav";
 import DrawDemo from "./components/DrawDemo";
 import FAQ from "./components/FAQ";
 import Footer from "./components/Footer";
 
+export const dynamic = "force-dynamic";
+
+function pickDigit() {
+  return new Date().getMinutes() % 10;
+}
+
 export async function generateMetadata(): Promise<Metadata> {
-  const digit = Math.floor(Math.random() * 10);
+  const digit = pickDigit();
   return {
     title: "Digitaizer — Draw a digit, let the network read it",
     icons: { icon: `/digits/${digit}.svg` },
@@ -15,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Home() {
-  const digit = Math.floor(Math.random() * 10);
+  const digit = pickDigit();
 
   return (
     <>
@@ -33,7 +37,7 @@ export default function Home() {
       </div>
 
       <FAQ />
-      <Footer />
+      <Footer digit={digit} />
     </>
   );
 }

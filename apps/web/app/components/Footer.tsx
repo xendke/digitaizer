@@ -2,11 +2,11 @@
 
 import Logo from "./Logo";
 
-export default function Footer() {
+export default function Footer({ digit }: { digit: number }) {
   return (
     <footer className="footer">
       <div className="footer__top">
-        <Logo size={22} />
+        <Logo size={22} digit={digit} />
         <nav className="footer__links">
           <button
             className="nav__faq"
