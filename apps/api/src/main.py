@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image, ImageFilter
 import numpy as np
 import io
-from network import Network
+from src.network import Network
 
 app = FastAPI(title="Digitaizer API")
 
