@@ -1,3 +1,5 @@
+"use client";
+
 import Logo from "./Logo";
 
 export default function Footer() {
@@ -6,7 +8,13 @@ export default function Footer() {
       <div className="footer__top">
         <Logo size={22} />
         <nav className="footer__links">
-          <a href="#faq">FAQ</a>
+          <button
+            className="nav__faq"
+            style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          >
+            ↑ Back to top
+          </button>
         </nav>
       </div>
       <div className="footer__bottom">
