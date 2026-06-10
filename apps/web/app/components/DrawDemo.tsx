@@ -62,7 +62,7 @@ export default function DrawDemo() {
       const p = pos(e);
       last.current = p;
       const ctx = ctxRef.current!;
-      ctx.strokeStyle = "#111114";
+      ctx.strokeStyle = "#5b5bf0";
       ctx.lineWidth = BRUSH;
       ctx.beginPath();
       ctx.moveTo(p.x, p.y);
@@ -80,7 +80,7 @@ export default function DrawDemo() {
       e.preventDefault();
       const ctx = ctxRef.current!;
       const p = pos(e);
-      ctx.strokeStyle = "#111114";
+      ctx.strokeStyle = "#5b5bf0";
       ctx.lineWidth = BRUSH;
       ctx.beginPath();
       ctx.moveTo(last.current.x, last.current.y);
