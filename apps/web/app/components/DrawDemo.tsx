@@ -91,17 +91,33 @@ export default function DrawDemo() {
     [pos]
   );
 
-  // placeholder until real API is wired in
   const runPredict = useCallback(() => {
     if (!hasInk.current) return;
     setThinking(true);
     if (predictTimer.current) clearTimeout(predictTimer.current);
-    predictTimer.current = setTimeout(() => {
-      setThinking(false);
-      // stub — will be replaced with real API call
-      const scores = emptyScores();
-      setResult({ digit: scores[0].digit, scores });
-    }, 320);
+
+    canvasRef.current!.toBlob(async (blob) => {
+      if (!blob) { setThinking(false); return; }
+      try {
+        const form = new FormData();
+        form.append("image", blob, "drawing.png");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/predict`, {
+          method: "POST",
+          body: form,
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const scores: Score[] = data.all.map((s: { digit: number; confidence: number }) => ({
+          digit: s.digit,
+          p: s.confidence,
+        }));
+        setResult({ digit: data.prediction, scores });
+      } catch (err) {
+        console.error("Prediction failed:", err);
+      } finally {
+        setThinking(false);
+      }
+    }, "image/png");
   }, []);
 
   const end = useCallback(() => {
@@ -132,7 +148,9 @@ export default function DrawDemo() {
     };
   }, [end]);
 
-  const top = result ? result.scores[0] : null;
+  const top = result
+    ? result.scores.slice().sort((a, b) => b.p - a.p)[0]
+    : null;
   const accent = "var(--accent)";
 
   const barScores = result
